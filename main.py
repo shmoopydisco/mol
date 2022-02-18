@@ -22,9 +22,9 @@ def render_3d_mol(mol_block):
     showmol(xyzview, height=500, width=500)
 
 
-def render_2d_mol(smiles):
+def render_2d_mol(smiles, highlight_atoms_list = []):
     mol = Chem.MolFromSmiles(smiles)
-    mol_image = Draw.MolToImage(mol)
+    mol_image = Draw.MolToImage(mol, highlightAtoms=highlight_atoms_list)
     st.image(mol_image)
 
 
@@ -55,7 +55,8 @@ def identify_functional_groups(smiles):
         group_to_find = Chem.MolFromSmarts(smarts)
         res = mol.GetSubstructMatches(group_to_find)
         if len(res) != 0:
-            st.write(group, res)
+            st.header(group)
+            render_2d_mol(smiles, highlight_atoms_list=[res[0][0]])
 
 
 def main():
