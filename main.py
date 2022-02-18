@@ -31,7 +31,7 @@ def render_2d_mol(smiles):
 def identify_functional_groups(smiles):
     mol = Chem.MolFromSmiles(smiles)
     group_to_smarts_map = {
-        "Carboxylic acid ": "[CX3;!$([CX3][H])](=O)[OX2H][H]",
+        "Carboxylic acid ": "[CX3;$([R0][#6]),$([H1R0])](=[OX1])[$([OX2H]),$([OX1-])]",
         "Ester": "[#6][CX3](=O)[OX2H0][#6]",
         "Acyl chloride": "[C,$([C]([#6])(=[O]))](=O)[Cl]",
         "Amide": "C(=O)-N",
