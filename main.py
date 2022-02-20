@@ -1,4 +1,5 @@
 import py3Dmol
+import requests
 import streamlit as st
 from rdkit import Chem
 from rdkit.Chem import AllChem, Draw
@@ -22,7 +23,7 @@ def render_3d_mol(mol_block):
     showmol(xyzview, height=500, width=500)
 
 
-def render_2d_mol(smiles, highlight_atoms_list = []):
+def render_2d_mol(smiles, highlight_atoms_list=[]):
     mol = Chem.MolFromSmiles(smiles)
     mol_image = Draw.MolToImage(mol, highlightAtoms=highlight_atoms_list)
     st.image(mol_image)
@@ -39,13 +40,13 @@ def identify_functional_groups(smiles):
         "Ketone": "[#6][CX3](=O)[#6]",
         "Primary alcohol": "[CH2][OH1]",
         "Secondary alcohol": "[CH1][OH1]",
-        "Tertiary alcohol":	"[OX2H][CX4;$([H0])]",
+        "Tertiary alcohol": "[OX2H][CX4;$([H0])]",
         "Primary amine": "[#6][NX3;H2;!$(NC=O)]([H])[H]",
         "Secondary amine": "[#6][NX3;H;!$(NC=O)]([#6])[H]",
         "Tertiary amine": "[#6][NX3;H0;!$(NC=O);!$(N=O)]([#6])[#6]",
         "Alkene": "[C]=[C]",
         "Alkyne": "[C]#[C]",
-        "AlkylHalide":	"[CX4][FX1,ClX1,BrX1,IX1]",
+        "AlkylHalide": "[CX4][FX1,ClX1,BrX1,IX1]",
         "Primary alkyl halide": "[CH2][X]",
         "Secondary alkyl halide": "[CH1][X]",
         "Tertiary alkyl halide": "[C][X]",
@@ -55,17 +56,21 @@ def identify_functional_groups(smiles):
         group_to_find = Chem.MolFromSmarts(smarts)
         res = mol.GetSubstructMatches(group_to_find)
         if len(res) != 0:
-            st.header(group)
-            render_2d_mol(smiles, highlight_atoms_list=[res[0][0]])
+            st.write(group)
+            st.write(res)
+            render_2d_mol(smiles, highlight_atoms_list=res[0])
+
+
+def get_iupac_name(smiles):
+    url = f"https://cactus.nci.nih.gov/chemical/structure/{smiles}/iupac_name"
+    return requests.get(url).text
 
 
 def main():
     compound_smiles = st.text_input("SMILES please", "CCO")
-    primary_alcohol = Chem.MolFromSmarts("[CH2][OH1]")
 
-    # blk = smiles_to_mol_block(compound_smiles)
-    # render_3d_mol(blk)
-    render_2d_mol(compound_smiles)
+    st.header(get_iupac_name(compound_smiles))
+
     identify_functional_groups(compound_smiles)
 
 
