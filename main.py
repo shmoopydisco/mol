@@ -73,11 +73,38 @@ def get_iupac_name(smiles):
 
 
 def main():
-    smiles = st_jsme('500x', '350px', 'C')
-    st.write(smiles)
+    st.set_page_config(
+        page_title="OrgChem Helper",
+        page_icon="🧪",
+        initial_sidebar_state="expanded",
+        menu_items={
+            "Get Help": "https://www.extremelycoolapp.com/help",
+            "Report a bug": "https://www.extremelycoolapp.com/bug",
+            "About": "# This is a header. This is an *extremely* cool app!",
+        },
+    )
+    st.title("Organic Chemistry Helper")
+    
+    smiles = st_jsme("500x", "350px", "C")
+
+    st.subheader("IUPAC Name:")
     if smiles:
-        st.header(get_iupac_name(smiles))
+        st.text(get_iupac_name(smiles))
+
+    st.subheader("Functional Groups:")
     identify_functional_groups(smiles)
+
+    st.subheader("React it with:")
+    reactents = st.selectbox(
+     'Choose a reagent:',
+     ('Email', 'Home phone', 'Mobile phone'))
+
+    st.write('You chose ', reactents)
+
+    # st.subheader("SMILES (for debugging):")
+    # st.write(smiles)
+
+    
 
 
 if __name__ == "__main__":
