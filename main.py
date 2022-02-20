@@ -65,11 +65,16 @@ def identify_functional_groups(smiles):
 
 def get_iupac_name(smiles):
     url = f"https://cactus.nci.nih.gov/chemical/structure/{smiles}/iupac_name"
-    return requests.get(url).text
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return f"Failed to get IUPAC name! err: {response.status_code}"
 
 
 def main():
     smiles = st_jsme('500x', '350px', 'C')
+    st.write(smiles)
     if smiles:
         st.header(get_iupac_name(smiles))
     identify_functional_groups(smiles)

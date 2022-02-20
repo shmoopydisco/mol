@@ -1,5 +1,9 @@
 # mol
-A simple Streamlit application to find the functional groups of an organic compound.
+A simple application that allows you to draw an organic compound and get the IUPAC name and reaction information.
+Reaction information roughly correlates BGU's Organic Chemistry course.
 
-# Todo
-In the future this will include a simple reactions calculator based on BGU's organic chemistry course.
+# Credits
+* JSME
+* st_jsme
+* Streamlit
+* Smiles to IUPAC using https://cactus.nci.nih.gov/chemical/structure
