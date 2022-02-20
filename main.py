@@ -4,6 +4,7 @@ import streamlit as st
 from rdkit import Chem
 from rdkit.Chem import AllChem, Draw
 from stmol import showmol
+from st_jsme import st_jsme
 
 
 def smiles_to_mol_block(smiles):
@@ -14,7 +15,8 @@ def smiles_to_mol_block(smiles):
     return mol_block
 
 
-def render_3d_mol(mol_block):
+def render_3d_mol(smiles):
+    mol_block = smiles_to_mol_block(smiles)
     xyzview = py3Dmol.view()  # (width=400,height=400)
     xyzview.addModel(mol_block, "mol")
     xyzview.setStyle({"stick": {}})
@@ -67,11 +69,10 @@ def get_iupac_name(smiles):
 
 
 def main():
-    compound_smiles = st.text_input("SMILES please", "CCO")
-
-    st.header(get_iupac_name(compound_smiles))
-
-    identify_functional_groups(compound_smiles)
+    smiles = st_jsme('500x', '350px', 'C')
+    if smiles:
+        st.header(get_iupac_name(smiles))
+    identify_functional_groups(smiles)
 
 
 if __name__ == "__main__":
