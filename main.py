@@ -1,10 +1,13 @@
+import urllib.parse
+
+import pubchempy
 import py3Dmol
 import requests
 import streamlit as st
 from rdkit import Chem
 from rdkit.Chem import AllChem, Draw
-from stmol import showmol
 from st_jsme import st_jsme
+from stmol import showmol
 
 
 def smiles_to_mol_block(smiles):
@@ -33,6 +36,7 @@ def render_2d_mol(smiles, highlight_atoms_list=[]):
 
 def identify_functional_groups(smiles):
     mol = Chem.MolFromSmiles(smiles)
+
     group_to_smarts_map = {
         "Carboxylic acid ": "[CX3;$([R0][#6]),$([H1R0])](=[OX1])[$([OX2H]),$([OX1-])]",
         "Ester": "[#6][CX3](=O)[OX2H0][#6]",
@@ -43,15 +47,15 @@ def identify_functional_groups(smiles):
         "Primary alcohol": "[CH2][OH1]",
         "Secondary alcohol": "[CH1][OH1]",
         "Tertiary alcohol": "[OX2H][CX4;$([H0])]",
-        "Primary amine": "[#6][NX3;H2;!$(NC=O)]([H])[H]",
-        "Secondary amine": "[#6][NX3;H;!$(NC=O)]([#6])[H]",
+        "Primary amine": "[NX3H2,NX3H2+0,NX4H3+;!$([N]~[#7,#8,#15,#16])]",
+        "Secondary amine": "[NX3H1,NX3H1+0,NX4H2+;!$([N]~[#7,#8,#15,#16])]",
         "Tertiary amine": "[#6][NX3;H0;!$(NC=O);!$(N=O)]([#6])[#6]",
         "Alkene": "[C]=[C]",
         "Alkyne": "[C]#[C]",
         "AlkylHalide": "[CX4][FX1,ClX1,BrX1,IX1]",
-        "Primary alkyl halide": "[CH2][X]",
-        "Secondary alkyl halide": "[CH1][X]",
-        "Tertiary alkyl halide": "[C][X]",
+        "Primary alkyl halide": "[CH2][F,Cl,Br,I]",
+        "Secondary alkyl halide": "[CH1][F,Cl,Br,I]",
+        "Tertiary alkyl halide": "[C][F,Cl,Br,I]",
     }
 
     for group, smarts in group_to_smarts_map.items():
@@ -61,15 +65,32 @@ def identify_functional_groups(smiles):
             st.write(group)
             st.write(res)
             render_2d_mol(smiles, highlight_atoms_list=res[0])
+            return
 
 
 def get_iupac_name(smiles):
-    url = f"https://cactus.nci.nih.gov/chemical/structure/{smiles}/iupac_name"
+    if not smiles:
+        return
+
+    encoded_smiles = urllib.parse.quote_plus(smiles)
+    url = f"https://cactus.nci.nih.gov/chemical/structure/{encoded_smiles}/iupac_name"
     response = requests.get(url)
     if response.status_code == 200:
-        return response.text
+        st.write(response.text)
     else:
-        return f"Failed to get IUPAC name! err: {response.status_code}"
+        try:
+            compounds = pubchempy.get_compounds(smiles, namespace="smiles")
+            name = compounds[0].iupac_name
+            if not name:
+                st.error("Failed getting IUPAC name!")
+            else:
+                st.warning(
+                    f"Trying alternative IUPAC source, results may be less accurate"
+                )
+                st.write(name)
+
+        except pubchempy.BadRequestError:
+            st.error("Failed getting IUPAC name!")
 
 
 def main():
@@ -84,27 +105,25 @@ def main():
         },
     )
     st.title("Organic Chemistry Helper")
-    
+
     smiles = st_jsme("500x", "350px", "C")
+    st.subheader("SMILES (for debugging):")
+    st.write(smiles)
 
     st.subheader("IUPAC Name:")
-    if smiles:
-        st.text(get_iupac_name(smiles))
+    get_iupac_name(smiles)
+
+    st.subheader("Is Aromatic:")
 
     st.subheader("Functional Groups:")
     identify_functional_groups(smiles)
 
     st.subheader("React it with:")
     reactents = st.selectbox(
-     'Choose a reagent:',
-     ('Email', 'Home phone', 'Mobile phone'))
+        "Choose a reagent:", ("Email", "Home phone", "Mobile phone")
+    )
 
-    st.write('You chose ', reactents)
-
-    # st.subheader("SMILES (for debugging):")
-    # st.write(smiles)
-
-    
+    st.write("You chose ", reactents)
 
 
 if __name__ == "__main__":
