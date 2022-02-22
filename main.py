@@ -65,6 +65,7 @@ def identify_functional_groups(smiles):
         "Primary alkyl halide": "[CH2][F,Cl,Br,I]",
         "Secondary alkyl halide": "[CH1][F,Cl,Br,I]",
         "Tertiary alkyl halide": "[C][F,Cl,Br,I]",
+        "Alkane": "[CX4;$([H3][#6]),$([H2]([#6])[#6]),$([H1]([#6])([#6])[#6]),$([#6]([#6])([#6])([#6])[#6])]",
     }
 
     functional_groups = []
@@ -80,7 +81,7 @@ def identify_functional_groups(smiles):
     return functional_groups
 
 
-def fetch_iupac_name(smiles):
+def fetch_and_display_iupac_name(smiles):
     if not smiles:
         return
 
@@ -94,21 +95,75 @@ def fetch_iupac_name(smiles):
             compounds = pubchempy.get_compounds(smiles, namespace="smiles")
             name = compounds[0].iupac_name
             if not name:
-                st.error("Failed getting IUPAC name!")
+                raise pubchempy.NotFoundError
             else:
                 st.warning(
                     "Trying alternative IUPAC source, results may be less accurate"
                 )
                 st.write(name)
 
-        except pubchempy.BadRequestError:
+        except (pubchempy.BadRequestError, pubchempy.NotFoundError):
             st.error("Failed getting IUPAC name!")
+
+
+def present_possible_reactions(functional_groups):
+    if not functional_groups:
+        return
+
+    db = SessionLocal()
+    possible_reagents = set()
+    try:
+        for fg in functional_groups:
+            raw_reagents = crud.get_reaction_reagents_by_substance(db, fg)
+            reagents = [item[0] for item in raw_reagents]
+            possible_reagents.update(reagents)
+    finally:
+        db.close()
+
+    st.write(possible_reagents)
+
+    with st.form("reactions_form"):
+        reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            possible_reactions = set()
+            try:
+                for fg in functional_groups:
+                    raw_reactions = crud.get_reactions_by_substance_and_reagent(
+                        db, substance=fg, reagent=reagents_selectbox
+                    )
+                    # reactions = [item[0] for item in raw_reactions]
+                    possible_reactions.update(raw_reactions)
+
+            finally:
+                db.close()
+
+            st.subheader("Possible reactions: ")
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                st.subheader("Name")
+                for reaction in possible_reactions:
+                    st.write(reaction.name)
+
+            with col2:
+                st.subheader("Environment")
+                for reaction in possible_reactions:
+                    st.write(reaction.environment)
+
+            with col3:
+                st.subheader("Products")
+                for reaction in possible_reactions:
+                    st.write(reaction.product)
+                    st.empty()
 
 
 def main():
     st.set_page_config(
         page_title="OrgChem Helper",
-        page_icon="🧪",
+        page_icon="💊", #"🧪",
         initial_sidebar_state="expanded",
         menu_items={
             "Get Help": "https://www.extremelycoolapp.com/help",
@@ -118,36 +173,23 @@ def main():
     )
     st.title("Organic Chemistry Helper")
 
-    smiles = st_jsme("500x", "350px", "C")
-    st.subheader("SMILES (for debugging):")
+    smiles = st_jsme("500x", "350px", "CCC")
+    st.subheader("SMILES (for debugging)")
     st.write(smiles)
 
-    st.subheader("IUPAC Name:")
-    fetch_iupac_name(smiles)
+    st.subheader("IUPAC Name")
+    fetch_and_display_iupac_name(smiles)
 
-    st.subheader("Is Aromatic:")
-
-    st.subheader("Functional Groups:")
-    functional_groups = identify_functional_groups(smiles)
+    st.subheader("Functional Groups")
+    functional_groups = []
+    try:
+        functional_groups = identify_functional_groups(smiles)
+    except TypeError:
+        pass
     st.write(functional_groups)
 
-    st.subheader("React it with:")
-    if functional_groups:
-        db = SessionLocal()
-        possible_reagents = []
-        try:
-            for fg in functional_groups:
-                raw_reagents = crud.get_reaction_reagents_by_substance(db, fg)
-                reagents = [item[0] for item in raw_reagents]
-                possible_reagents.extend(reagents)
-        finally:
-            db.close()
-
-        st.write(possible_reagents)
-
-        reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
-
-        st.write("You chose ", reagents_selectbox)
+    st.subheader("Reactions")
+    present_possible_reactions(functional_groups)
 
 
 if __name__ == "__main__":
