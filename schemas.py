@@ -8,3 +8,6 @@ class Reaction(BaseModel):
     reagent: str
     environment: str
     product: str
+
+    class Config:
+        orm_mode = True
