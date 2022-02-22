@@ -1,5 +1,6 @@
 import urllib.parse
 
+import pandas as pd
 import pubchempy
 import py3Dmol
 import requests
@@ -10,8 +11,9 @@ from sqlalchemy.orm import Session
 from st_jsme import st_jsme
 from stmol import showmol
 
-import crud, models, schemas
-from database import SessionLocal, engine
+import crud
+import models
+from database import SessionLocal
 
 
 def smiles_to_mol_block(smiles):
@@ -127,53 +129,44 @@ def present_possible_reactions(functional_groups):
         submitted = st.form_submit_button("Submit")
 
         if submitted:
-            possible_reactions = set()
+            st.subheader("Possible reactions: ")
+            possible_reactions = []
             try:
                 for fg in functional_groups:
-                    raw_reactions = crud.get_reactions_by_substance_and_reagent(
-                        db, substance=fg, reagent=reagents_selectbox
+                    df = pd.read_sql(
+                        db.query(models.Reaction)
+                        .filter(models.Reaction.substance.contains(fg))
+                        .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                        .statement,
+                        db.bind,
                     )
-                    # reactions = [item[0] for item in raw_reactions]
-                    possible_reactions.update(raw_reactions)
+                    possible_reactions.append(df)
 
             finally:
                 db.close()
 
-            st.subheader("Possible reactions: ")
-
-            col1, col2, col3 = st.columns(3)
-
-            with col1:
-                st.subheader("Name")
-                for reaction in possible_reactions:
-                    st.write(reaction.name)
-
-            with col2:
-                st.subheader("Environment")
-                for reaction in possible_reactions:
-                    st.write(reaction.environment)
-
-            with col3:
-                st.subheader("Products")
-                for reaction in possible_reactions:
-                    st.write(reaction.product)
-                    st.empty()
-
+            hide_table_row_index = """
+            <style>
+            tbody th {display:none}
+            .blank {display:none}
+            </style>
+            """
+            st.markdown(hide_table_row_index, unsafe_allow_html=True)
+            st.table(pd.concat(possible_reactions).drop(columns="id"))
 
 def main():
     st.set_page_config(
         page_title="OrgChem Helper",
-        page_icon="💊", #"🧪",
+        page_icon="💊",
         initial_sidebar_state="expanded",
         menu_items={
-            "Get Help": "https://www.extremelycoolapp.com/help",
-            "Report a bug": "https://www.extremelycoolapp.com/bug",
-            "About": "# This is a header. This is an *extremely* cool app!",
+            "About": "I hope this app will help with some of the basic needs you might come across in your organic chemistry course.",
         },
     )
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", "CCC")
+
     st.subheader("SMILES (for debugging)")
     st.write(smiles)
 
