@@ -67,7 +67,7 @@ def identify_functional_groups(smiles):
         "Primary alkyl halide": "[CH2][F,Cl,Br,I]",
         "Secondary alkyl halide": "[CH1][F,Cl,Br,I]",
         "Tertiary alkyl halide": "[C][F,Cl,Br,I]",
-        "Alkane": "[CX4;$([H3][#6]),$([H2]([#6])[#6]),$([H1]([#6])([#6])[#6]),$([#6]([#6])([#6])([#6])[#6])]",
+        # "Alkane": "[CX4;$([H3][#6]),$([H2]([#6])[#6]),$([H1]([#6])([#6])[#6]),$([#6]([#6])([#6])([#6])[#6])]",
     }
 
     functional_groups = []
@@ -154,7 +154,8 @@ def present_possible_reactions(functional_groups):
             st.markdown(hide_table_row_index, unsafe_allow_html=True)
             st.table(pd.concat(possible_reactions).drop(columns="id"))
 
-def main():
+
+def page_ui():
     st.set_page_config(
         page_title="OrgChem Helper",
         page_icon="💊",
@@ -186,4 +187,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    page_ui()
