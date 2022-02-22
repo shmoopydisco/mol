@@ -1,5 +1,9 @@
+streamlit
 rdkit-pypi
 Pillow
 py3Dmol
 stmol
 opencv-python
+pubchempy
+sqlalchemy
+pydantic

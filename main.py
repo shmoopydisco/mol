@@ -39,14 +39,19 @@ def identify_functional_groups(smiles):
 
     group_to_smarts_map = {
         "Carboxylic acid ": "[CX3;$([R0][#6]),$([H1R0])](=[OX1])[$([OX2H]),$([OX1-])]",
+        "Anhydride": "[CX3;$([H0][#6]),$([H1])](=[OX1])[#8X2][CX3;$([H0][#6]),$([H1])](=[OX1])",
         "Ester": "[#6][CX3](=O)[OX2H0][#6]",
         "Acyl chloride": "[C,$([C]([#6])(=[O]))](=O)[Cl]",
         "Amide": "C(=O)-N",
         "Aldehyde": "[CX3H1](=O)[#6]",
         "Ketone": "[#6][CX3](=O)[#6]",
-        "Primary alcohol": "[CH2][OH1]",
+        "Benzene": "c1ccccc1",
+        "Hemiacetal": "[OX2H][CX4H1,!$(C(O)(O)[!#6])][OX2][#6;!$(C=[O,S,N])]",
+        "Alcohol": "[OX2H][CX4;!$(C([OX2H])[O,S,#7,#15])]",
+        "Primary alcohol": "[OX2H][CX4H2;!$(C([OX2H])[O,S,#7,#15])]",
         "Secondary alcohol": "[CH1][OH1]",
         "Tertiary alcohol": "[OX2H][CX4;$([H0])]",
+        "Ether": "[OD2;!$(OC~[!#1!#6])]([#6])[#6]",
         "Primary amine": "[NX3H2,NX3H2+0,NX4H3+;!$([N]~[#7,#8,#15,#16])]",
         "Secondary amine": "[NX3H1,NX3H1+0,NX4H2+;!$([N]~[#7,#8,#15,#16])]",
         "Tertiary amine": "[#6][NX3;H0;!$(NC=O);!$(N=O)]([#6])[#6]",
@@ -65,7 +70,6 @@ def identify_functional_groups(smiles):
             st.write(group)
             st.write(res)
             render_2d_mol(smiles, highlight_atoms_list=res[0])
-            return
 
 
 def get_iupac_name(smiles):
@@ -85,7 +89,7 @@ def get_iupac_name(smiles):
                 st.error("Failed getting IUPAC name!")
             else:
                 st.warning(
-                    f"Trying alternative IUPAC source, results may be less accurate"
+                    "Trying alternative IUPAC source, results may be less accurate"
                 )
                 st.write(name)
 
