@@ -63,11 +63,14 @@ def identify_functional_groups(smiles):
         "Tertiary amine": "[#6][NX3;H0;!$(NC=O);!$(N=O)]([#6])[#6]",
         "Alkene": "[C]=[C]",
         "Alkyne": "[C]#[C]",
-        "AlkylHalide": "[CX4][FX1,ClX1,BrX1,IX1]",
+        # "AlkylHalide": "[CX4][FX1,ClX1,BrX1,IX1]",
         "Primary alkyl halide": "[CH2][F,Cl,Br,I]",
         "Secondary alkyl halide": "[CH1][F,Cl,Br,I]",
-        "Tertiary alkyl halide": "[C][F,Cl,Br,I]",
+        "Tertiary alkyl halide": "[X4&H0][F,Cl,Br,I]",
         # "Alkane": "[CX4;$([H3][#6]),$([H2]([#6])[#6]),$([H1]([#6])([#6])[#6]),$([#6]([#6])([#6])([#6])[#6])]",
+        # "AlkanePrimary": "[CX4H3][#6][X]",
+        # "AlkaneSecondary": "[CX4H2]([#6])[#6][X]",
+        # "AlkaneTertiary": "[CX4H1]([#6])([#6])[#6][X]",
     }
 
     functional_groups = []
