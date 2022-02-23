@@ -5,11 +5,12 @@ import pubchempy
 import py3Dmol
 import requests
 import streamlit as st
+from awesome_table import AwesomeTable, Column
 from rdkit import Chem
 from rdkit.Chem import AllChem, Draw
-from sqlalchemy.orm import Session
 from st_jsme import st_jsme
 from stmol import showmol
+from streamlit_option_menu import option_menu
 
 import crud
 import models
@@ -158,14 +159,18 @@ def present_possible_reactions(functional_groups):
 
 
 def show_formatted_table(possible_reactions):
-    hide_table_row_index = """
-    <style>
-    tbody th {display:none}
-    .blank {display:none}
-    </style>
-    """
-    st.markdown(hide_table_row_index, unsafe_allow_html=True)
-    st.table(pd.concat(possible_reactions).drop(columns="id"))
+    df = pd.concat(possible_reactions)
+    AwesomeTable(
+        df.drop(columns="id"),
+        columns=[
+            Column(name="name", label="Name"),
+            Column(name="substance", label="Main Substance"),
+            Column(name="reagent", label="Reagent"),
+            Column(name="environment", label="Environment"),
+            Column(name="product", label="Products"),
+        ],
+        show_search=True,
+    )
 
 
 def struct_to_iupac_mode():
@@ -314,17 +319,20 @@ if __name__ == "__main__":
         },
     )
 
-    st.sidebar.title("What to do")
-    app_mode = st.sidebar.selectbox(
-        "Choose the app mode",
-        [
-            "Structure to IUPAC Name",
-            "IUPAC Name to Structure",
-            "Find All Funcional Groups",
-            "Show All Reactions From Structure",
-            "Match Reaction By Reagent",
-        ],
-    )
+    with st.sidebar.title("What to do"):
+        app_mode = option_menu(
+            "Choose the app mode",
+            [
+                "Structure to IUPAC Name",
+                "IUPAC Name to Structure",
+                "Find All Funcional Groups",
+                "Show All Reactions From Structure",
+                "Match Reaction By Reagent",
+            ],
+            icons=["house", "gear"],
+            menu_icon="cast",
+            default_index=1,
+        )
 
     match app_mode:
         case "Show All Reactions From Structure":

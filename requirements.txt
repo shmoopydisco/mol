@@ -7,3 +7,4 @@ opencv-python
 pubchempy
 sqlalchemy
 pydantic
+streamlit_option_menu

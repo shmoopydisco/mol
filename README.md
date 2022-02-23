@@ -7,3 +7,4 @@ Reaction information roughly correlates BGU's Organic Chemistry course.
 * st_jsme https://github.com/llzhu/st-jsme
 * Streamlit https://streamlit.io/
 * Smiles to IUPAC using https://cactus.nci.nih.gov/chemical/structure and https://pubchem.ncbi.nlm.nih.gov/
+* IUPAC to structure using https://opsin.ch.cam.ac.uk/
