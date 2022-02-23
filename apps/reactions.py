@@ -25,6 +25,7 @@ def match_reaction_by_reagent_mode():
 
     st.subheader("Reactions")
     if not functional_groups:
+        st.error("No functional groups to react with!")
         return
 
     db = SessionLocal()
@@ -63,6 +64,7 @@ def match_reaction_by_reagent_mode():
 
 def present_possible_reactions(functional_groups):
     if not functional_groups:
+        st.error("No functional groups to react with!")
         return
 
     db = SessionLocal()
@@ -111,6 +113,9 @@ def present_possible_reactions(functional_groups):
 
 
 def show_formatted_table(possible_reactions):
+    if len(possible_reactions) < 1:
+        return
+
     df = pd.concat(possible_reactions)
     AwesomeTable(
         df.drop(columns="id"),
@@ -141,6 +146,7 @@ def show_all_reactions_from_struct_mode():
 
     st.subheader("Reactions")
     if not functional_groups:
+        st.error("No functional groups to react with!")
         return
 
     db = SessionLocal()
