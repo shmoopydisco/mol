@@ -40,7 +40,7 @@ def render_2d_mol(smiles, highlight_atoms_list=[]):
     st.image(mol_image)
 
 
-def identify_functional_groups(smiles):
+def get_functional_groups(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
     group_to_smarts_map = {
@@ -73,15 +73,12 @@ def identify_functional_groups(smiles):
         # "AlkaneTertiary": "[CX4H1]([#6])([#6])[#6][X]",
     }
 
-    functional_groups = []
+    functional_groups = {}
     for group, smarts in group_to_smarts_map.items():
         group_to_find = Chem.MolFromSmarts(smarts)
         res = mol.GetSubstructMatches(group_to_find)
         if len(res) != 0:
-            functional_groups.append(group)
-            st.write(group)
-            st.write(res)
-            render_2d_mol(smiles, highlight_atoms_list=res[0])
+            functional_groups[group] = res
 
     return functional_groups
 
@@ -125,10 +122,9 @@ def present_possible_reactions(functional_groups):
     finally:
         db.close()
 
-    st.write(possible_reagents)
-
     with st.form("reactions_form"):
         reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
+        show_all_checkbox = st.checkbox("Show all relevant reactions")
         submitted = st.form_submit_button("Submit")
 
         if submitted:
@@ -148,25 +144,20 @@ def present_possible_reactions(functional_groups):
             finally:
                 db.close()
 
-            hide_table_row_index = """
-            <style>
-            tbody th {display:none}
-            .blank {display:none}
-            </style>
-            """
-            st.markdown(hide_table_row_index, unsafe_allow_html=True)
-            st.table(pd.concat(possible_reactions).drop(columns="id"))
+            if len(possible_reactions) > 1 and show_all_checkbox:
+                hide_table_row_index = """
+                <style>
+                tbody th {display:none}
+                .blank {display:none}
+                </style>
+                """
+                st.markdown(hide_table_row_index, unsafe_allow_html=True)
+                st.table(pd.concat(possible_reactions).drop(columns="id"))
+            else:
+                pass
 
 
-def page_ui():
-    st.set_page_config(
-        page_title="OrgChem Helper",
-        page_icon="💊",
-        initial_sidebar_state="expanded",
-        menu_items={
-            "About": "I hope this app will help with some of the basic needs you might come across in your organic chemistry course.",
-        },
-    )
+def struct_to_iupac_mode():
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", "CCC")
@@ -177,17 +168,69 @@ def page_ui():
     st.subheader("IUPAC Name")
     fetch_and_display_iupac_name(smiles)
 
-    st.subheader("Functional Groups")
-    functional_groups = []
+
+def struct_to_reactions_mode():
+    st.title("Organic Chemistry Helper")
+
+    smiles = st_jsme("500x", "350px", "CCC")
+
+    st.subheader("SMILES (for debugging)")
+    st.write(smiles)
+
+    functional_groups = dict()
     try:
-        functional_groups = identify_functional_groups(smiles)
+        functional_groups = get_functional_groups(smiles)
     except TypeError:
         pass
-    st.write(functional_groups)
 
     st.subheader("Reactions")
     present_possible_reactions(functional_groups)
 
 
+def find_all_functional_groups_mode():
+    st.title("Organic Chemistry Helper")
+
+    smiles = st_jsme("500x", "350px", "CCC")
+
+    st.subheader("SMILES (for debugging)")
+    st.write(smiles)
+
+    st.subheader("Functional Groups")
+    functional_groups = dict()
+    try:
+        functional_groups = get_functional_groups(smiles)
+    except TypeError:
+        pass
+
+    for group in functional_groups.items():
+        st.write(group[0])
+        render_2d_mol(smiles, highlight_atoms_list=group[1][0])
+
+
 if __name__ == "__main__":
-    page_ui()
+    st.set_page_config(
+        page_title="OrgChem Helper",
+        page_icon="💊",
+        initial_sidebar_state="expanded",
+        menu_items={
+            "About": "I hope this app will help with some of the basic needs you might come across in your organic chemistry course.",
+        },
+    )
+
+    st.sidebar.title("What to do")
+    app_mode = st.sidebar.selectbox(
+        "Choose the app mode",
+        [
+            "Structure to IUPAC Name",
+            "Reactions from Structure",
+            "Find All Funcional Groups",
+        ],
+    )
+    if app_mode == "Show instructions":
+        st.sidebar.success('To continue select "Run the app".')
+    elif app_mode == "Reactions from Structure":
+        struct_to_reactions_mode()
+    elif app_mode == "Structure to IUPAC Name":
+        struct_to_iupac_mode()
+    elif app_mode == "Find All Funcional Groups":
+        find_all_functional_groups_mode()
