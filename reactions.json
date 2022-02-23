@@ -1,1 +1,402 @@
-[{"id": 1, "name": "radical reactions", "substance": "alkane", "reagent": "X2", "environment": "radical, heat, uv", "product": "homolysis"}, {"id": 2, "name": "Hydrogen Halide Addition for Alkyl Halide Production", "substance": "Alkene", "reagent": "HX", "environment": null, "product": "Alkyl Halide"}, {"id": 3, "name": "Water Addition for Alcohol production", "substance": "Alkene", "reagent": "H2O", "environment": "H2SO4, H3PO4, H3O+\nStrong acid (H+)", "product": "Alcohol"}, {"id": 4, "name": "Halogenation", "substance": "Alkene", "reagent": "X2", "environment": null, "product": "Alkyl Halide"}, {"id": 5, "name": "Hydrogenation", "substance": "Alkene", "reagent": "H2", "environment": "Pd - weak,\nPt - stron", "product": "Alkane"}, {"id": 6, "name": "Hydroboration", "substance": "Alkene", "reagent": "BH3", "environment": "H2O2,\nHO- (or conjugated like NaOH)", "product": "Alcohol"}, {"id": 7, "name": "HX with Peroxide", "substance": "Alkene", "reagent": "HX", "environment": "ROOR (CH3OOCH3)\nheat", "product": "Alkyl Halide"}, {"id": 8, "name": "Water Addition", "substance": "Alkyne", "reagent": "H2O", "environment": "H2SO4, H3PO4, H3O+\nStrong acid (H+)", "product": "alkene with alcohol and ketone"}, {"id": 9, "name": "alkyne reduction for alkane or alkene production", "substance": "Alkyne", "reagent": "Pd, Pt\nH2", "environment": null, "product": "alkene or alkane"}, {"id": 10, "name": "Alkyl Halide SN2", "substance": "Primary alkyl halide, Secondary alkyl halide", "reagent": "Strong nucleophile\nOH-, OR-, SH-, SR- KOH, NaOR, CN-", "environment": null, "product": "nucleophile is added to the alkane instead of the leaving group (the halide)"}, {"id": 11, "name": "Alkyl Halide SN1", "substance": "Secondary alkyl halide, Tertiary alkyl halide", "reagent": "Weak nucleophile\nH2O, ROH, RO2H, H2S, HSR", "environment": null, "product": "alkane with part of the nucleophile, usually alcohol"}, {"id": 12, "name": "Alkyl Halide E2", "substance": "Primary alkyl halide, Secondary alkyl halide, Tertiary alkyl halide", "reagent": "Strong base\nOH-, OR-, SH-, SR- KOH, NaOR", "environment": null, "product": "alkene, and the leaving halogen"}, {"id": 13, "name": "Alkyl Halide E1", "substance": "Secondary alkyl halide, Tertiary alkyl halide", "reagent": "Weak base\nH2O, ROH, RO2H, H2S, HSR, CN-", "environment": null, "product": "Alkene"}, {"id": 14, "name": "Halogenation", "substance": "Benzene", "reagent": "X2", "environment": "FeBr3,\nFeCl3", "product": "benzene with brome added to the benzene"}, {"id": 15, "name": "Alkylation", "substance": "Benzene", "reagent": "RX", "environment": "AlCl3", "product": "R group added to the benzene"}, {"id": 16, "name": "Acylation", "substance": "Benzene", "reagent": "R-C(=O)-X", "environment": "AlCl3", "product": "the entire molecule added without the Cl, to the benzylic position"}, {"id": 17, "name": "Sulfonation", "substance": "Benzene", "reagent": "H2SO4", "environment": null, "product": "HSO3 added to the benzene"}, {"id": 18, "name": "Nitration", "substance": "Benzene", "reagent": "HNO3", "environment": "H2SO4", "product": "NO2 added to the benzene"}, {"id": 19, "name": "Benzylic position oxidation", "substance": "Benzene", "reagent": "KMnO4", "environment": null, "product": "benzoic acid\nCarboxylic acid on every benzylic position that has hydrogen"}, {"id": 20, "name": "Benzylic position radical halogenation", "substance": "Benzene", "reagent": "Br2", "environment": "UV light", "product": "benzene with brome added to the benzylic position"}, {"id": 21, "name": "Benzylic position radical halogenation with NBS", "substance": "Benzene", "reagent": "NBS", "environment": "hv or heat", "product": "Br added to the benzylic position"}, {"id": 22, "name": "Alcohol SN2", "substance": "Primary alcohol", "reagent": "HX", "environment": null, "product": "alkyl halide  H2O"}, {"id": 23, "name": "Alcohol SN1", "substance": "Secondary alcohol, Tertiary alcohol", "reagent": "HX", "environment": null, "product": "Alkyl Halide, H20"}, {"id": 24, "name": "Alcohol SN2", "substance": "Secondary alcohol, Tertiary alcohol", "reagent": "PBr3\nSOCl2", "environment": null, "product": "Alkyl Halide"}, {"id": 25, "name": "Alcohol E1 (De-hydration)", "substance": "Secondary alcohol, Tertiary alcohol", "reagent": "H3PO4, H2SO4", "environment": null, "product": "alkene"}, {"id": 26, "name": "Alcohol E2 (De-hydration)", "substance": "Primary alcohol", "reagent": "H3PO4, H2SO4", "environment": null, "product": "alkene\nH2O"}, {"id": 27, "name": "Alcohol weak oxidation", "substance": "Primary alcohol", "reagent": "weak oxidizer\nPCC,PDC", "environment": null, "product": "Aldehyde"}, {"id": 28, "name": "Alcohol Oxidation", "substance": "Secondary Alcohol", "reagent": "Weak oxidizer\nPCC,PDC\n\nStrong oxidizer\nKMnO4, H2CrO4, Na2Cr2O8", "environment": null, "product": "Ketone"}, {"id": 29, "name": "Ether SN2", "substance": "Primary Ether, Secondary Ether", "reagent": "HX", "environment": null, "product": "Alkyl Halide, Alcohol"}, {"id": 30, "name": "Ether SN1", "substance": "Secondary Ether, Teriary Ether", "reagent": "HX", "environment": null, "product": "Alkyl Halide, Alcohol"}, {"id": 31, "name": "carbonyl reduction for alcohol creation", "substance": "aldehyde, ketone", "reagent": "NaBH4, LiAlH4", "environment": "acidic enviroment\nH2O + H+,H3O+", "product": "methyl alcohol, primary alcohol, secondary alcohol"}, {"id": 32, "name": "react with grignard reagent for alcohol production", "substance": "aldehyde, ketone", "reagent": "R-MG-X\n(grignard reagent)", "environment": "acidic environment\nH2O + H+,H3O+", "product": "alcohol"}, {"id": 33, "name": "hemiacetal creation from aldehyde", "substance": "Aldehyde", "reagent": "alcohol", "environment": "acidic environmt\nH2O + H+,H3O+", "product": "hemiacetal"}, {"id": 34, "name": "acetal production from hemiacetal", "substance": "Hemiacetal", "reagent": "alcohol", "environment": "acidic environment\nH2O + H+,H3O+", "product": "Acetal"}, {"id": 35, "name": "Hemiketal Production from Ketone", "substance": "Ketone", "reagent": "Alcohol", "environment": "acidic environment\nH2O + H+,H3O+", "product": "Hemiketal"}, {"id": 36, "name": "Ketal Production from Hemiketal", "substance": "Hemiketal", "reagent": "Alcohol", "environment": "acidic environment\nH2O + H+,H3O+", "product": "Ketal"}, {"id": 37, "name": "react with water for hydrate production", "substance": "aldehyde, ketone", "reagent": null, "environment": "acidic environment\nH2O + H+,H3O+", "product": "hydrate"}, {"id": 38, "name": "Acyl Halide Production", "substance": "Carboxylic Acid", "reagent": "PBr3\nSOCl2", "environment": null, "product": "Acyl Halide\nH2O"}, {"id": 39, "name": "Esterification", "substance": "Carboxylic Acid", "reagent": "Alcohol", "environment": "acidic environment, heat", "product": "Ester"}, {"id": 40, "name": "Carboxylic Acid Production from Acyl Halide", "substance": "Acyl Halide", "reagent": "H2O, base", "environment": null, "product": "Carboxylic Acid"}, {"id": 41, "name": "Anhydride Production from Acyl Halide", "substance": "Acyl Halide", "reagent": "Carboxylic Acid, base", "environment": null, "product": "Anhydride"}, {"id": 42, "name": "Ester Production from Acyl Halide", "substance": "Acyl Halide", "reagent": "alcohol, base", "environment": null, "product": "Ester"}, {"id": 43, "name": "Amide Production from Acyl Halide", "substance": "Acyl Halide", "reagent": "NH3, base", "environment": null, "product": "Amide"}, {"id": 44, "name": "Carboxylic Acid Production from Anhydride", "substance": "Anhydride", "reagent": "H2O, base", "environment": null, "product": "Carboxylic Acid"}, {"id": 45, "name": "Ester Production from Anhydride", "substance": "Anhydride", "reagent": "alcohol, base", "environment": null, "product": "ester"}, {"id": 46, "name": "Amide Production from Anhydrite", "substance": "Anhydride", "reagent": "NH3 or any amine, base", "environment": null, "product": "Amide"}, {"id": 47, "name": "Ester Hydrolysis", "substance": "Ester", "reagent": "H3O+ or HO-", "environment": "acid or base", "product": "Carboxylic Acid"}, {"id": 48, "name": "Amide Hydrolysis", "substance": "Amide", "reagent": null, "environment": "\u05d7\u05d5\u05de\u05e6\u05d4 \u05d0\u05d5 \u05d1\u05e1\u05d9\u05e1", "product": "Carboxylic Acid\nAmonia"}, {"id": 49, "name": "Amide Reduction for Amide Production", "substance": "Amide", "reagent": "LiAlH4", "environment": null, "product": "Amine"}, {"id": 50, "name": "Alcohol strong oxidation", "substance": "Primary alcohol", "reagent": "Strong oxidizer\nKMnO4, H2CrO4, Na2Cr2O7", "environment": null, "product": "Carboxylic acid"}]
+[
+    {
+        "id": 1,
+        "name": "radical reactions",
+        "substance": "alkane",
+        "reagent": "X2",
+        "environment": "radical, heat, uv",
+        "product": "homolysis"
+    },
+    {
+        "id": 2,
+        "name": "Hydrogen Halide Addition for Alkyl Halide Production",
+        "substance": "Alkene",
+        "reagent": "HX",
+        "environment": null,
+        "product": "Alkyl Halide"
+    },
+    {
+        "id": 3,
+        "name": "Water Addition for Alcohol production",
+        "substance": "Alkene",
+        "reagent": "H2O",
+        "environment": "H2SO4, H3PO4, H3O+\nStrong acid (H+)",
+        "product": "Alcohol"
+    },
+    {
+        "id": 4,
+        "name": "Halogenation",
+        "substance": "Alkene",
+        "reagent": "X2",
+        "environment": null,
+        "product": "Alkyl Halide"
+    },
+    {
+        "id": 5,
+        "name": "Hydrogenation",
+        "substance": "Alkene",
+        "reagent": "H2",
+        "environment": "Pd - weak,\nPt - stron",
+        "product": "Alkane"
+    },
+    {
+        "id": 6,
+        "name": "Hydroboration",
+        "substance": "Alkene",
+        "reagent": "BH3",
+        "environment": "H2O2,\nHO- (or conjugated like NaOH)",
+        "product": "Alcohol"
+    },
+    {
+        "id": 7,
+        "name": "HX with Peroxide",
+        "substance": "Alkene",
+        "reagent": "HX",
+        "environment": "ROOR (CH3OOCH3)\nheat",
+        "product": "Alkyl Halide"
+    },
+    {
+        "id": 8,
+        "name": "Water Addition",
+        "substance": "Alkyne",
+        "reagent": "H2O",
+        "environment": "H2SO4, H3PO4, H3O+\nStrong acid (H+)",
+        "product": "alkene with alcohol and ketone"
+    },
+    {
+        "id": 9,
+        "name": "alkyne reduction for alkane or alkene production",
+        "substance": "Alkyne",
+        "reagent": "Pd, Pt\nH2",
+        "environment": null,
+        "product": "alkene or alkane"
+    },
+    {
+        "id": 10,
+        "name": "Alkyl Halide SN2",
+        "substance": "Primary alkyl halide, Secondary alkyl halide",
+        "reagent": "Strong nucleophile\nOH-, OR-, SH-, SR- KOH, NaOR, CN-",
+        "environment": null,
+        "product": "nucleophile is added to the alkane instead of the leaving group (the halide)"
+    },
+    {
+        "id": 11,
+        "name": "Alkyl Halide SN1",
+        "substance": "Secondary alkyl halide, Tertiary alkyl halide",
+        "reagent": "Weak nucleophile\nH2O, ROH, RO2H, H2S, HSR",
+        "environment": null,
+        "product": "alkane with part of the nucleophile, usually alcohol"
+    },
+    {
+        "id": 12,
+        "name": "Alkyl Halide E2",
+        "substance": "Primary alkyl halide, Secondary alkyl halide, Tertiary alkyl halide",
+        "reagent": "Strong base\nOH-, OR-, SH-, SR- KOH, NaOR",
+        "environment": null,
+        "product": "alkene, and the leaving halogen"
+    },
+    {
+        "id": 13,
+        "name": "Alkyl Halide E1",
+        "substance": "Secondary alkyl halide, Tertiary alkyl halide",
+        "reagent": "Weak base\nH2O, ROH, RO2H, H2S, HSR, CN-",
+        "environment": null,
+        "product": "Alkene"
+    },
+    {
+        "id": 14,
+        "name": "Halogenation",
+        "substance": "Benzene",
+        "reagent": "X2",
+        "environment": "FeBr3,\nFeCl3",
+        "product": "benzene with brome added to the benzene"
+    },
+    {
+        "id": 15,
+        "name": "Alkylation",
+        "substance": "Benzene",
+        "reagent": "RX",
+        "environment": "AlCl3",
+        "product": "R group added to the benzene"
+    },
+    {
+        "id": 16,
+        "name": "Acylation",
+        "substance": "Benzene",
+        "reagent": "R-C(=O)-X",
+        "environment": "AlCl3",
+        "product": "the entire molecule added without the Cl, to the benzylic position"
+    },
+    {
+        "id": 17,
+        "name": "Sulfonation",
+        "substance": "Benzene",
+        "reagent": "H2SO4",
+        "environment": null,
+        "product": "HSO3 added to the benzene"
+    },
+    {
+        "id": 18,
+        "name": "Nitration",
+        "substance": "Benzene",
+        "reagent": "HNO3",
+        "environment": "H2SO4",
+        "product": "NO2 added to the benzene"
+    },
+    {
+        "id": 19,
+        "name": "Benzylic position oxidation",
+        "substance": "Benzene",
+        "reagent": "KMnO4",
+        "environment": null,
+        "product": "benzoic acid\nCarboxylic acid on every benzylic position that has hydrogen"
+    },
+    {
+        "id": 20,
+        "name": "Benzylic position radical halogenation",
+        "substance": "Benzene",
+        "reagent": "Br2",
+        "environment": "UV light",
+        "product": "benzene with brome added to the benzylic position"
+    },
+    {
+        "id": 21,
+        "name": "Benzylic position radical halogenation with NBS",
+        "substance": "Benzene",
+        "reagent": "NBS",
+        "environment": "hv or heat",
+        "product": "Br added to the benzylic position"
+    },
+    {
+        "id": 22,
+        "name": "Alcohol SN2",
+        "substance": "Primary alcohol",
+        "reagent": "HX",
+        "environment": null,
+        "product": "alkyl halide  H2O"
+    },
+    {
+        "id": 23,
+        "name": "Alcohol SN1",
+        "substance": "Secondary alcohol, Tertiary alcohol",
+        "reagent": "HX",
+        "environment": null,
+        "product": "Alkyl Halide, H20"
+    },
+    {
+        "id": 24,
+        "name": "Alcohol SN2",
+        "substance": "Secondary alcohol, Tertiary alcohol",
+        "reagent": "PBr3\nSOCl2",
+        "environment": null,
+        "product": "Alkyl Halide"
+    },
+    {
+        "id": 25,
+        "name": "Alcohol E1 (De-hydration)",
+        "substance": "Secondary alcohol, Tertiary alcohol",
+        "reagent": "H3PO4, H2SO4",
+        "environment": null,
+        "product": "alkene"
+    },
+    {
+        "id": 26,
+        "name": "Alcohol E2 (De-hydration)",
+        "substance": "Primary alcohol",
+        "reagent": "H3PO4, H2SO4",
+        "environment": null,
+        "product": "alkene\nH2O"
+    },
+    {
+        "id": 27,
+        "name": "Alcohol weak oxidation",
+        "substance": "Primary alcohol",
+        "reagent": "weak oxidizer\nPCC,PDC",
+        "environment": null,
+        "product": "Aldehyde"
+    },
+    {
+        "id": 28,
+        "name": "Alcohol Oxidation",
+        "substance": "Secondary Alcohol",
+        "reagent": "Weak oxidizer\nPCC,PDC\n\nStrong oxidizer\nKMnO4, H2CrO4, Na2Cr2O8",
+        "environment": null,
+        "product": "Ketone"
+    },
+    {
+        "id": 29,
+        "name": "Ether SN2",
+        "substance": "Primary Ether, Secondary Ether",
+        "reagent": "HX",
+        "environment": null,
+        "product": "Alkyl Halide, Alcohol"
+    },
+    {
+        "id": 30,
+        "name": "Ether SN1",
+        "substance": "Secondary Ether, Teriary Ether",
+        "reagent": "HX",
+        "environment": null,
+        "product": "Alkyl Halide, Alcohol"
+    },
+    {
+        "id": 31,
+        "name": "carbonyl reduction for alcohol creation",
+        "substance": "aldehyde, ketone",
+        "reagent": "NaBH4, LiAlH4",
+        "environment": "acidic enviroment\nH2O + H+,H3O+",
+        "product": "methyl alcohol, primary alcohol, secondary alcohol"
+    },
+    {
+        "id": 32,
+        "name": "react with grignard reagent for alcohol production",
+        "substance": "aldehyde, ketone",
+        "reagent": "R-MG-X\n(grignard reagent)",
+        "environment": "acidic environment\nH2O + H+,H3O+",
+        "product": "alcohol"
+    },
+    {
+        "id": 33,
+        "name": "hemiacetal creation from aldehyde",
+        "substance": "Aldehyde",
+        "reagent": "alcohol",
+        "environment": "acidic environmt\nH2O + H+,H3O+",
+        "product": "hemiacetal"
+    },
+    {
+        "id": 34,
+        "name": "acetal production from hemiacetal",
+        "substance": "Hemiacetal",
+        "reagent": "alcohol",
+        "environment": "acidic environment\nH2O + H+,H3O+",
+        "product": "Acetal"
+    },
+    {
+        "id": 35,
+        "name": "Hemiketal Production from Ketone",
+        "substance": "Ketone",
+        "reagent": "Alcohol",
+        "environment": "acidic environment\nH2O + H+,H3O+",
+        "product": "Hemiketal"
+    },
+    {
+        "id": 36,
+        "name": "Ketal Production from Hemiketal",
+        "substance": "Hemiketal",
+        "reagent": "Alcohol",
+        "environment": "acidic environment\nH2O + H+,H3O+",
+        "product": "Ketal"
+    },
+    {
+        "id": 37,
+        "name": "react with water for hydrate production",
+        "substance": "aldehyde, ketone",
+        "reagent": null,
+        "environment": "acidic environment\nH2O + H+,H3O+",
+        "product": "hydrate"
+    },
+    {
+        "id": 38,
+        "name": "Acyl Halide Production",
+        "substance": "Carboxylic Acid",
+        "reagent": "PBr3\nSOCl2",
+        "environment": null,
+        "product": "Acyl Halide\nH2O"
+    },
+    {
+        "id": 39,
+        "name": "Esterification",
+        "substance": "Carboxylic Acid",
+        "reagent": "Alcohol",
+        "environment": "acidic environment, heat",
+        "product": "Ester"
+    },
+    {
+        "id": 40,
+        "name": "Carboxylic Acid Production from Acyl Halide",
+        "substance": "Acyl Halide",
+        "reagent": "H2O, base",
+        "environment": null,
+        "product": "Carboxylic Acid"
+    },
+    {
+        "id": 41,
+        "name": "Anhydride Production from Acyl Halide",
+        "substance": "Acyl Halide",
+        "reagent": "Carboxylic Acid, base",
+        "environment": null,
+        "product": "Anhydride"
+    },
+    {
+        "id": 42,
+        "name": "Ester Production from Acyl Halide",
+        "substance": "Acyl Halide",
+        "reagent": "alcohol, base",
+        "environment": null,
+        "product": "Ester"
+    },
+    {
+        "id": 43,
+        "name": "Amide Production from Acyl Halide",
+        "substance": "Acyl Halide",
+        "reagent": "NH3, base",
+        "environment": null,
+        "product": "Amide"
+    },
+    {
+        "id": 44,
+        "name": "Carboxylic Acid Production from Anhydride",
+        "substance": "Anhydride",
+        "reagent": "H2O, base",
+        "environment": null,
+        "product": "Carboxylic Acid"
+    },
+    {
+        "id": 45,
+        "name": "Ester Production from Anhydride",
+        "substance": "Anhydride",
+        "reagent": "alcohol, base",
+        "environment": null,
+        "product": "ester"
+    },
+    {
+        "id": 46,
+        "name": "Amide Production from Anhydrite",
+        "substance": "Anhydride",
+        "reagent": "NH3 or any amine, base",
+        "environment": null,
+        "product": "Amide"
+    },
+    {
+        "id": 47,
+        "name": "Ester Hydrolysis",
+        "substance": "Ester",
+        "reagent": "H3O+ or HO-",
+        "environment": "acid or base",
+        "product": "Carboxylic Acid"
+    },
+    {
+        "id": 48,
+        "name": "Amide Hydrolysis",
+        "substance": "Amide",
+        "reagent": null,
+        "environment": "acid or base",
+        "product": "Carboxylic Acid\nAmonia"
+    },
+    {
+        "id": 49,
+        "name": "Amide Reduction for Amide Production",
+        "substance": "Amide",
+        "reagent": "LiAlH4",
+        "environment": null,
+        "product": "Amine"
+    },
+    {
+        "id": 50,
+        "name": "Alcohol strong oxidation",
+        "substance": "Primary alcohol",
+        "reagent": "Strong oxidizer\nKMnO4, H2CrO4, Na2Cr2O7",
+        "environment": null,
+        "product": "Carboxylic acid"
+    }
+]

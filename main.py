@@ -51,19 +51,17 @@ if __name__ == "__main__":
                 "Show All Reactions From Structure",
                 "Match Reaction By Reagent",
             ],
-            icons=["house", "gear"],
-            menu_icon="cast",
             default_index=1,
         )
 
     match app_mode:
-        case "Show All Reactions From Structure":
-            show_all_reactions_from_struct_mode()
         case "Structure to IUPAC Name":
             struct_to_iupac_mode()
         case "IUPAC Name to Structure":
             iupac_to_struct_mode()
         case "Find All Funcional Groups":
             find_all_functional_groups_mode()
+        case "Show All Reactions From Structure":
+            show_all_reactions_from_struct_mode()
         case "Match Reaction By Reagent":
             match_reaction_by_reagent_mode()
