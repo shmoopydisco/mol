@@ -180,7 +180,7 @@ def struct_to_iupac_mode():
     fetch_and_display_iupac_name(smiles)
 
 
-def struct_show_all_reactions_mode():
+def show_all_reactions_from_struct_mode():
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", "CCC")
@@ -286,6 +286,24 @@ def match_reaction_by_reagent_mode():
 
             show_formatted_table(possible_reactions)
 
+
+def iupac_to_struct_mode():
+    st.title("Organic Chemistry Helper")
+
+    with st.form(key="iupac_to_struct_form"):
+        iupac = st.text_input("Please enter IUPAC name to search")
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            # url = f"https://cactus.nci.nih.gov/chemical/structure/{iupac}/image?width=1000&height=1000"
+            url = f"https://opsin.ch.cam.ac.uk/opsin/{iupac}.png"
+            response = requests.get(url)
+            if response.status_code == 200:
+                st.image(response.content)
+            else:
+                st.error("Failed getting a structure!")
+
+
 if __name__ == "__main__":
     st.set_page_config(
         page_title="OrgChem Helper",
@@ -301,17 +319,20 @@ if __name__ == "__main__":
         "Choose the app mode",
         [
             "Structure to IUPAC Name",
+            "IUPAC Name to Structure",
             "Find All Funcional Groups",
             "Show All Reactions From Structure",
-            "Match Reaction By Reagent"
+            "Match Reaction By Reagent",
         ],
     )
 
     match app_mode:
         case "Show All Reactions From Structure":
-            struct_show_all_reactions_mode()
+            show_all_reactions_from_struct_mode()
         case "Structure to IUPAC Name":
             struct_to_iupac_mode()
+        case "IUPAC Name to Structure":
+            iupac_to_struct_mode()
         case "Find All Funcional Groups":
             find_all_functional_groups_mode()
         case "Match Reaction By Reagent":
