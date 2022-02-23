@@ -254,11 +254,11 @@ if __name__ == "__main__":
             "Find All Funcional Groups",
         ],
     )
-    if app_mode == "Show instructions":
-        st.sidebar.success('To continue select "Run the app".')
-    elif app_mode == "Show All Reactions From Structure":
-        struct_show_all_reactions_mode()
-    elif app_mode == "Structure to IUPAC Name":
-        struct_to_iupac_mode()
-    elif app_mode == "Find All Funcional Groups":
-        find_all_functional_groups_mode()
+
+    match app_mode:
+        case "Show All Reactions From Structure":
+            struct_show_all_reactions_mode()
+        case "Structure to IUPAC Name":
+            struct_to_iupac_mode()
+        case "Find All Funcional Groups":
+            find_all_functional_groups_mode()
