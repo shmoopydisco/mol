@@ -235,6 +235,57 @@ def find_all_functional_groups_mode():
         render_2d_mol(smiles, highlight_atoms_list=group[1][0])
 
 
+def match_reaction_by_reagent_mode():
+    st.title("Organic Chemistry Helper")
+
+    smiles = st_jsme("500x", "350px", "CCC")
+
+    st.subheader("SMILES (for debugging)")
+    st.write(smiles)
+
+    functional_groups = dict()
+    try:
+        functional_groups = get_functional_groups(smiles)
+    except TypeError:
+        pass
+
+    st.subheader("Reactions")
+    if not functional_groups:
+        return
+
+    db = SessionLocal()
+    possible_reagents = set()
+    try:
+        for fg in functional_groups:
+            raw_reagents = crud.get_reaction_reagents_by_substance(db, fg)
+            reagents = [item[0] for item in raw_reagents]
+            possible_reagents.update(reagents)
+    finally:
+        db.close()
+
+    with st.form("reactions_form"):
+        reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            st.subheader("Possible reactions: ")
+            possible_reactions = []
+            try:
+                for fg in functional_groups:
+                    df = pd.read_sql(
+                        db.query(models.Reaction)
+                        .filter(models.Reaction.substance.contains(fg))
+                        .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                        .statement,
+                        db.bind,
+                    )
+                    possible_reactions.append(df)
+
+            finally:
+                db.close()
+
+            show_formatted_table(possible_reactions)
+
 if __name__ == "__main__":
     st.set_page_config(
         page_title="OrgChem Helper",
@@ -250,8 +301,9 @@ if __name__ == "__main__":
         "Choose the app mode",
         [
             "Structure to IUPAC Name",
-            "Show All Reactions From Structure",
             "Find All Funcional Groups",
+            "Show All Reactions From Structure",
+            "Match Reaction By Reagent"
         ],
     )
 
@@ -262,3 +314,5 @@ if __name__ == "__main__":
             struct_to_iupac_mode()
         case "Find All Funcional Groups":
             find_all_functional_groups_mode()
+        case "Match Reaction By Reagent":
+            match_reaction_by_reagent_mode()
