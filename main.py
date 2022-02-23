@@ -157,6 +157,17 @@ def present_possible_reactions(functional_groups):
                 pass
 
 
+def show_formatted_table(possible_reactions):
+    hide_table_row_index = """
+    <style>
+    tbody th {display:none}
+    .blank {display:none}
+    </style>
+    """
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+    st.table(pd.concat(possible_reactions).drop(columns="id"))
+
+
 def struct_to_iupac_mode():
     st.title("Organic Chemistry Helper")
 
@@ -169,7 +180,7 @@ def struct_to_iupac_mode():
     fetch_and_display_iupac_name(smiles)
 
 
-def struct_to_reactions_mode():
+def struct_show_all_reactions_mode():
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", "CCC")
@@ -184,7 +195,24 @@ def struct_to_reactions_mode():
         pass
 
     st.subheader("Reactions")
-    present_possible_reactions(functional_groups)
+    if not functional_groups:
+        return
+
+    db = SessionLocal()
+    possible_reactions = []
+    try:
+        for fg in functional_groups:
+            df = pd.read_sql(
+                db.query(models.Reaction)
+                .filter(models.Reaction.substance.contains(fg))
+                .statement,
+                db.bind,
+            )
+            possible_reactions.append(df)
+    finally:
+        db.close()
+
+    show_formatted_table(possible_reactions)
 
 
 def find_all_functional_groups_mode():
@@ -222,14 +250,14 @@ if __name__ == "__main__":
         "Choose the app mode",
         [
             "Structure to IUPAC Name",
-            "Reactions from Structure",
+            "Show All Reactions From Structure",
             "Find All Funcional Groups",
         ],
     )
     if app_mode == "Show instructions":
         st.sidebar.success('To continue select "Run the app".')
-    elif app_mode == "Reactions from Structure":
-        struct_to_reactions_mode()
+    elif app_mode == "Show All Reactions From Structure":
+        struct_show_all_reactions_mode()
     elif app_mode == "Structure to IUPAC Name":
         struct_to_iupac_mode()
     elif app_mode == "Find All Funcional Groups":
