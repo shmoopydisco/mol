@@ -6,7 +6,7 @@ import streamlit as st
 from st_jsme import st_jsme
 
 
-@st.cache(ttl=3600)
+@st.cache()
 def fetch_iupac_name(smiles):
     if not smiles:
         return
@@ -29,7 +29,7 @@ def fetch_iupac_name(smiles):
             return None
 
 
-@st.cache(ttl=3600)
+@st.cache()
 def fetch_structure(iupac):
     # url = f"https://cactus.nci.nih.gov/chemical/structure/{iupac}/image?width=1000&height=1000"
     url = f"https://opsin.ch.cam.ac.uk/opsin/{iupac}.png"
