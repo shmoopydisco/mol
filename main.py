@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 import py3Dmol
 import streamlit as st
 from rdkit import Chem
@@ -41,6 +42,9 @@ if __name__ == "__main__":
         },
     )
 
+    if "smiles" not in st.session_state:
+        st.session_state.smiles = "CCC"
+
     with st.sidebar.title("What to do"):
         app_mode = option_menu(
             "Choose the app mode",
@@ -54,14 +58,19 @@ if __name__ == "__main__":
             default_index=1,
         )
 
+    res = None
     match app_mode:
         case "Structure to IUPAC Name":
-            struct_to_iupac_mode()
+            res = struct_to_iupac_mode()
         case "IUPAC Name to Structure":
             iupac_to_struct_mode()
         case "Find All Funcional Groups":
-            find_all_functional_groups_mode()
+            res = find_all_functional_groups_mode()
         case "Show All Reactions From Structure":
-            show_all_reactions_from_struct_mode()
+            res = show_all_reactions_from_struct_mode()
         case "Match Reaction By Reagent":
-            match_reaction_by_reagent_mode()
+            res = match_reaction_by_reagent_mode()
+
+    # Guard against null writes to the smiles state
+    if res:
+        st.session_state.smiles = res

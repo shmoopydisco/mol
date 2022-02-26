@@ -56,7 +56,7 @@ def render_2d_mol(smiles, highlight_atoms_list=[]):
 def find_all_functional_groups_mode():
     st.title("Organic Chemistry Helper")
 
-    smiles = st_jsme("500x", "350px", "CCC")
+    smiles = st_jsme("500x", "350px", st.session_state.smiles)
 
     st.subheader("SMILES (for debugging)")
     st.write(smiles)
@@ -71,3 +71,5 @@ def find_all_functional_groups_mode():
     for group in functional_groups.items():
         st.write(group[0])
         render_2d_mol(smiles, highlight_atoms_list=group[1][0])
+
+    return smiles

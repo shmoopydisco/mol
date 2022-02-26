@@ -12,7 +12,7 @@ from .functional_groups import get_functional_groups
 def match_reaction_by_reagent_mode():
     st.title("Organic Chemistry Helper")
 
-    smiles = st_jsme("500x", "350px", "CCC")
+    smiles = st_jsme("500x", "350px", st.session_state.smiles)
 
     st.subheader("SMILES (for debugging)")
     st.write(smiles)
@@ -60,6 +60,8 @@ def match_reaction_by_reagent_mode():
                 db.close()
 
             show_formatted_table(possible_reactions)
+
+    return smiles
 
 
 def present_possible_reactions(functional_groups):
@@ -133,7 +135,7 @@ def show_formatted_table(possible_reactions):
 def show_all_reactions_from_struct_mode():
     st.title("Organic Chemistry Helper")
 
-    smiles = st_jsme("500x", "350px", "CCC")
+    smiles = st_jsme("500x", "350px", st.session_state.smiles)
 
     st.subheader("SMILES (for debugging)")
     st.write(smiles)
@@ -164,3 +166,5 @@ def show_all_reactions_from_struct_mode():
         db.close()
 
     show_formatted_table(possible_reactions)
+
+    return smiles
