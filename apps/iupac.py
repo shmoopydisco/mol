@@ -6,7 +6,8 @@ import streamlit as st
 from st_jsme import st_jsme
 
 
-def fetch_and_display_iupac_name(smiles):
+@st.cache(ttl=3600)
+def fetch_iupac_name(smiles):
     if not smiles:
         return
 
@@ -14,7 +15,7 @@ def fetch_and_display_iupac_name(smiles):
     url = f"https://cactus.nci.nih.gov/chemical/structure/{encoded_smiles}/iupac_name"
     response = requests.get(url)
     if response.status_code == 200:
-        st.write(response.text)
+        return response.text
     else:
         try:
             compounds = pubchempy.get_compounds(smiles, namespace="smiles")
@@ -22,13 +23,20 @@ def fetch_and_display_iupac_name(smiles):
             if not name:
                 raise pubchempy.NotFoundError
             else:
-                st.warning(
-                    "Trying alternative IUPAC source, results may be less accurate"
-                )
-                st.write(name)
+                return name
 
         except (pubchempy.BadRequestError, pubchempy.NotFoundError):
-            st.error("Failed getting IUPAC name!")
+            return None
+
+
+@st.cache(ttl=3600)
+def fetch_structure(iupac):
+    # url = f"https://cactus.nci.nih.gov/chemical/structure/{iupac}/image?width=1000&height=1000"
+    url = f"https://opsin.ch.cam.ac.uk/opsin/{iupac}.png"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        return response.content
 
 
 def iupac_to_struct_mode():
@@ -39,11 +47,9 @@ def iupac_to_struct_mode():
         submitted = st.form_submit_button("Submit")
 
         if submitted:
-            # url = f"https://cactus.nci.nih.gov/chemical/structure/{iupac}/image?width=1000&height=1000"
-            url = f"https://opsin.ch.cam.ac.uk/opsin/{iupac}.png"
-            response = requests.get(url)
-            if response.status_code == 200:
-                st.image(response.content)
+            result = fetch_structure(iupac)
+            if result:
+                st.image(result)
             else:
                 st.error("Failed getting a structure!")
 
@@ -57,4 +63,8 @@ def struct_to_iupac_mode():
     st.write(smiles)
 
     st.subheader("IUPAC Name")
-    fetch_and_display_iupac_name(smiles)
+    result = fetch_iupac_name(smiles)
+    if result:
+        st.write(result)
+    else:
+        st.error("Failed getting a structure!")
