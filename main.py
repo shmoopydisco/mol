@@ -1,10 +1,10 @@
-from tkinter.messagebox import NO
 import py3Dmol
 import streamlit as st
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from stmol import showmol
 from streamlit_option_menu import option_menu
+from apps import reactions
 
 from apps.functional_groups import find_all_functional_groups_mode
 from apps.iupac import iupac_to_struct_mode, struct_to_iupac_mode
@@ -12,6 +12,8 @@ from apps.reactions import (
     match_reaction_by_reagent_mode,
     show_all_reactions_from_struct_mode,
 )
+
+from enum import Enum
 
 
 def smiles_to_mol_block(smiles):
@@ -32,6 +34,14 @@ def render_3d_mol(smiles):
     showmol(xyzview, height=500, width=500)
 
 
+class AppModes(Enum):
+    STRUCT_TO_IUPAC = "Structure to IUPAC Name"
+    IUPAC_TO_STRUCT = "IUPAC Name to Structure"
+    FUNCTIONAL_GROUPS = "Find All Funcional Groups"
+    REACTIONS_FROM_STRUCT = "Show All Reactions From Structure"
+    REACTIONS_FROM_REAGENT = "Match Reaction By Reagent"
+
+
 if __name__ == "__main__":
     st.set_page_config(
         page_title="OrgChem Helper",
@@ -48,27 +58,21 @@ if __name__ == "__main__":
     with st.sidebar.title("What to do"):
         app_mode = option_menu(
             "Choose the app mode",
-            [
-                "Structure to IUPAC Name",
-                "IUPAC Name to Structure",
-                "Find All Funcional Groups",
-                "Show All Reactions From Structure",
-                "Match Reaction By Reagent",
-            ],
+            [mode.value for mode in AppModes],
             default_index=1,
         )
 
     res = None
-    match app_mode:
-        case "Structure to IUPAC Name":
+    match AppModes(app_mode):
+        case AppModes.STRUCT_TO_IUPAC:
             res = struct_to_iupac_mode()
-        case "IUPAC Name to Structure":
+        case AppModes.IUPAC_TO_STRUCT:
             iupac_to_struct_mode()
-        case "Find All Funcional Groups":
+        case AppModes.FUNCTIONAL_GROUPS:
             res = find_all_functional_groups_mode()
-        case "Show All Reactions From Structure":
+        case AppModes.REACTIONS_FROM_STRUCT:
             res = show_all_reactions_from_struct_mode()
-        case "Match Reaction By Reagent":
+        case AppModes.REACTIONS_FROM_REAGENT:
             res = match_reaction_by_reagent_mode()
 
     # Guard against null writes to the smiles state
