@@ -3,6 +3,8 @@ import urllib.parse
 import pubchempy
 import requests
 import streamlit as st
+import urllib3
+
 from st_jsme import st_jsme
 
 
@@ -13,20 +15,25 @@ def fetch_iupac_name(smiles):
 
     encoded_smiles = urllib.parse.quote_plus(smiles)
     url = f"https://cactus.nci.nih.gov/chemical/structure/{encoded_smiles}/iupac_name"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.text
-    else:
-        try:
-            compounds = pubchempy.get_compounds(smiles, namespace="smiles")
-            name = compounds[0].iupac_name
-            if not name:
-                raise pubchempy.NotFoundError
-            else:
-                return name
 
-        except (pubchempy.BadRequestError, pubchempy.NotFoundError):
-            return None
+    try:
+        response = requests.get(url=url, timeout=15)
+        if response.status_code == 200:
+            return response.text
+    except (TimeoutError, requests.exceptions.ConnectionError, urllib3.exceptions.NewConnectionError,
+            urllib3.exceptions.MaxRetryError):
+        pass
+
+    try:
+        compounds = pubchempy.get_compounds(smiles, namespace="smiles")
+        name = compounds[0].iupac_name
+        if not name:
+            raise pubchempy.NotFoundError
+        else:
+            return name
+
+    except (pubchempy.BadRequestError, pubchempy.NotFoundError):
+        return None
 
 
 @st.cache()
