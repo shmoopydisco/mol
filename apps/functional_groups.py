@@ -12,7 +12,7 @@ def get_functional_groups(smiles):
         "Carboxylic acid ": "[CX3;$([R0][#6]),$([H1R0])](=[OX1])[$([OX2H]),$([OX1-])]",
         "Anhydride": "[CX3;$([H0][#6]),$([H1])](=[OX1])[#8X2][CX3;$([H0][#6]),$([H1])](=[OX1])",
         "Ester": "[#6][CX3](=O)[OX2H0][#6]",
-        "Acyl chloride": "[C,$([C]([#6])(=[O]))](=O)[Cl]",
+        "Acyl Halide": "[C,$([C]([#6])(=[O]))](=O)[F,Cl,Br,I]",
         "Amide": "C(=O)-N",
         "Aldehyde": "[CX3H1](=O)[#6]",
         "Ketone": "[#6][CX3](=O)[#6]",
