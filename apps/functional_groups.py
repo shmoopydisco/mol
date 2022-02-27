@@ -68,12 +68,11 @@ def find_all_functional_groups_mode():
     st.write(st.session_state.smiles)
 
     st.subheader("Functional Groups")
-    functional_groups = dict()
     try:
         functional_groups = get_functional_groups(st.session_state.smiles)
+
+        for group in functional_groups.items():
+            st.write(group[0])
+            render_2d_mol(smiles, highlight_atoms_list=group[1][0])
     except TypeError:
         pass
-
-    for group in functional_groups.items():
-        st.write(group[0])
-        render_2d_mol(smiles, highlight_atoms_list=group[1][0])
