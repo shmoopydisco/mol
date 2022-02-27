@@ -73,6 +73,6 @@ def find_all_functional_groups_mode():
 
         for group in functional_groups.items():
             st.write(group[0])
-            render_2d_mol(smiles, highlight_atoms_list=group[1][0])
+            render_2d_mol(st.session_state.smiles, highlight_atoms_list=group[1][0])
     except TypeError:
         pass
