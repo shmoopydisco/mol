@@ -4,6 +4,7 @@ from rdkit.Chem import Draw
 from st_jsme import st_jsme
 
 
+@st.cache()
 def get_functional_groups(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
@@ -57,19 +58,22 @@ def find_all_functional_groups_mode():
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", st.session_state.smiles)
+    with st.form(key="fg_form"):
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            st.session_state.smiles = smiles
 
     st.subheader("SMILES (for debugging)")
-    st.write(smiles)
+    st.write(st.session_state.smiles)
 
     st.subheader("Functional Groups")
     functional_groups = dict()
     try:
-        functional_groups = get_functional_groups(smiles)
+        functional_groups = get_functional_groups(st.session_state.smiles)
     except TypeError:
         pass
 
     for group in functional_groups.items():
         st.write(group[0])
         render_2d_mol(smiles, highlight_atoms_list=group[1][0])
-
-    return smiles

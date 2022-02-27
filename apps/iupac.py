@@ -58,15 +58,19 @@ def struct_to_iupac_mode():
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", st.session_state.smiles)
+    with st.form("struct_to_iupac_form"):
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            st.session_state.smiles = smiles
 
     st.subheader("SMILES (for debugging)")
-    st.write(smiles)
+    st.write(st.session_state.smiles)
 
     st.subheader("IUPAC Name")
-    result = fetch_iupac_name(smiles)
+    result = fetch_iupac_name(st.session_state.smiles)
     if result:
         st.write(result)
     else:
         st.error("Failed getting a structure!")
 
-    return smiles
+    return st.session_state.smiles

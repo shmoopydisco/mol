@@ -8,3 +8,6 @@ pubchempy
 sqlalchemy
 pydantic
 streamlit_option_menu
+extra-streamlit-components
+streamlit-awesome-table
+aenum

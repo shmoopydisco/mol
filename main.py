@@ -1,10 +1,10 @@
 import py3Dmol
 import streamlit as st
+from aenum import MultiValueEnum
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from stmol import showmol
 from streamlit_option_menu import option_menu
-from apps import reactions
 
 from apps.functional_groups import find_all_functional_groups_mode
 from apps.iupac import iupac_to_struct_mode, struct_to_iupac_mode
@@ -12,8 +12,6 @@ from apps.reactions import (
     match_reaction_by_reagent_mode,
     show_all_reactions_from_struct_mode,
 )
-
-from enum import Enum
 
 
 def smiles_to_mol_block(smiles):
@@ -34,12 +32,12 @@ def render_3d_mol(smiles):
     showmol(xyzview, height=500, width=500)
 
 
-class AppModes(Enum):
-    STRUCT_TO_IUPAC = "Structure to IUPAC Name"
-    IUPAC_TO_STRUCT = "IUPAC Name to Structure"
-    FUNCTIONAL_GROUPS = "Find All Funcional Groups"
-    REACTIONS_FROM_STRUCT = "Show All Reactions From Structure"
-    REACTIONS_FROM_REAGENT = "Match Reaction By Reagent"
+class AppModes(MultiValueEnum):
+    STRUCT_TO_IUPAC = "Structure to IUPAC Name", struct_to_iupac_mode
+    IUPAC_TO_STRUCT = "IUPAC Name to Structure", iupac_to_struct_mode
+    FUNCTIONAL_GROUPS = "Find All Funcional Groups", find_all_functional_groups_mode
+    REACTIONS_FROM_STRUCT = "Show All Reactions From Structure", show_all_reactions_from_struct_mode
+    REACTIONS_FROM_REAGENT = "Match Reaction By Reagent", match_reaction_by_reagent_mode
 
 
 if __name__ == "__main__":
@@ -48,7 +46,8 @@ if __name__ == "__main__":
         page_icon="💊",
         initial_sidebar_state="expanded",
         menu_items={
-            "About": "I hope this app will help with some of the basic needs you might come across in your organic chemistry course.",
+            "About": "I hope this app will help with some of the basic needs you might come across in your organic "
+                     "chemistry course.",
         },
     )
 
@@ -62,19 +61,4 @@ if __name__ == "__main__":
             default_index=1,
         )
 
-    res = None
-    match AppModes(app_mode):
-        case AppModes.STRUCT_TO_IUPAC:
-            res = struct_to_iupac_mode()
-        case AppModes.IUPAC_TO_STRUCT:
-            iupac_to_struct_mode()
-        case AppModes.FUNCTIONAL_GROUPS:
-            res = find_all_functional_groups_mode()
-        case AppModes.REACTIONS_FROM_STRUCT:
-            res = show_all_reactions_from_struct_mode()
-        case AppModes.REACTIONS_FROM_REAGENT:
-            res = match_reaction_by_reagent_mode()
-
-    # Guard against null writes to the smiles state
-    if res:
-        st.session_state.smiles = res
+    AppModes(app_mode).values[1]()

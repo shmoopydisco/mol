@@ -9,17 +9,21 @@ from st_jsme import st_jsme
 from .functional_groups import get_functional_groups
 
 
-def match_reaction_by_reagent_mode():
+def reactions_template(form_id):
     st.title("Organic Chemistry Helper")
 
     smiles = st_jsme("500x", "350px", st.session_state.smiles)
+    with st.form(form_id):
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            st.session_state.smiles = smiles
 
     st.subheader("SMILES (for debugging)")
-    st.write(smiles)
+    st.write(st.session_state.smiles)
 
     functional_groups = dict()
     try:
-        functional_groups = get_functional_groups(smiles)
+        functional_groups = get_functional_groups(st.session_state.smiles)
     except TypeError:
         pass
 
@@ -28,40 +32,7 @@ def match_reaction_by_reagent_mode():
         st.error("No functional groups to react with!")
         return
 
-    db = SessionLocal()
-    possible_reagents = set()
-    try:
-        for fg in functional_groups:
-            raw_reagents = crud.get_reaction_reagents_by_substance(db, fg)
-            reagents = [item[0] for item in raw_reagents]
-            possible_reagents.update(reagents)
-    finally:
-        db.close()
-
-    with st.form("reactions_form"):
-        reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
-        submitted = st.form_submit_button("Submit")
-
-        if submitted:
-            st.subheader("Possible reactions: ")
-            possible_reactions = []
-            try:
-                for fg in functional_groups:
-                    df = pd.read_sql(
-                        db.query(models.Reaction)
-                        .filter(models.Reaction.substance.contains(fg))
-                        .filter(models.Reaction.reagent.contains(reagents_selectbox))
-                        .statement,
-                        db.bind,
-                    )
-                    possible_reactions.append(df)
-
-            finally:
-                db.close()
-
-            show_formatted_table(possible_reactions)
-
-    return smiles
+    return functional_groups
 
 
 def present_possible_reactions(functional_groups):
@@ -91,9 +62,9 @@ def present_possible_reactions(functional_groups):
                 for fg in functional_groups:
                     df = pd.read_sql(
                         db.query(models.Reaction)
-                        .filter(models.Reaction.substance.contains(fg))
-                        .filter(models.Reaction.reagent.contains(reagents_selectbox))
-                        .statement,
+                            .filter(models.Reaction.substance.contains(fg))
+                            .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                            .statement,
                         db.bind,
                     )
                     possible_reactions.append(df)
@@ -133,22 +104,8 @@ def show_formatted_table(possible_reactions):
 
 
 def show_all_reactions_from_struct_mode():
-    st.title("Organic Chemistry Helper")
-
-    smiles = st_jsme("500x", "350px", st.session_state.smiles)
-
-    st.subheader("SMILES (for debugging)")
-    st.write(smiles)
-
-    functional_groups = dict()
-    try:
-        functional_groups = get_functional_groups(smiles)
-    except TypeError:
-        pass
-
-    st.subheader("Reactions")
+    functional_groups = reactions_template("all_reactions_form")
     if not functional_groups:
-        st.error("No functional groups to react with!")
         return
 
     db = SessionLocal()
@@ -157,8 +114,8 @@ def show_all_reactions_from_struct_mode():
         for fg in functional_groups:
             df = pd.read_sql(
                 db.query(models.Reaction)
-                .filter(models.Reaction.substance.contains(fg))
-                .statement,
+                    .filter(models.Reaction.substance.contains(fg))
+                    .statement,
                 db.bind,
             )
             possible_reactions.append(df)
@@ -167,4 +124,41 @@ def show_all_reactions_from_struct_mode():
 
     show_formatted_table(possible_reactions)
 
-    return smiles
+
+def match_reaction_by_reagent_mode():
+    functional_groups = reactions_template("reagent_reactions_form")
+    if not functional_groups:
+        return
+
+    db = SessionLocal()
+    possible_reagents = set()
+    try:
+        for fg in functional_groups:
+            raw_reagents = crud.get_reaction_reagents_by_substance(db, fg)
+            reagents = [item[0] for item in raw_reagents]
+            possible_reagents.update(reagents)
+    finally:
+        db.close()
+
+    with st.form("reactions_form"):
+        reagents_selectbox = st.selectbox("Choose a reagent:", possible_reagents)
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            st.subheader("Possible reactions: ")
+            possible_reactions = []
+            try:
+                for fg in functional_groups:
+                    df = pd.read_sql(
+                        db.query(models.Reaction)
+                            .filter(models.Reaction.substance.contains(fg))
+                            .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                            .statement,
+                        db.bind,
+                    )
+                    possible_reactions.append(df)
+
+            finally:
+                db.close()
+
+            show_formatted_table(possible_reactions)
