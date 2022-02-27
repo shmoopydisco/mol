@@ -1,4 +1,4 @@
-# mol
+# mol - The Small Organic Chemistry Helper 🧪
 A simple application that allows you to draw an organic compound and get the IUPAC name and reaction information.
 Reaction information roughly correlates BGU's Organic Chemistry course.
 
