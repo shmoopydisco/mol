@@ -1,12 +1,12 @@
-import crud
-import models
 import pandas as pd
 import streamlit as st
 from awesome_table import AwesomeTable, Column
+
+import crud
+import database
 from database import SessionLocal
 from st_jsme import st_jsme
-
-from .functional_groups import get_functional_groups
+from apps.functional_groups import get_functional_groups
 
 
 def reactions_template(form_id):
@@ -61,9 +61,9 @@ def present_possible_reactions(functional_groups):
             try:
                 for fg in functional_groups:
                     df = pd.read_sql(
-                        db.query(models.Reaction)
-                            .filter(models.Reaction.substance.contains(fg))
-                            .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                        db.query(database.Reaction)
+                            .filter(database.Reaction.substance.contains(fg))
+                            .filter(database.Reaction.reagent.contains(reagents_selectbox))
                             .statement,
                         db.bind,
                     )
@@ -113,8 +113,8 @@ def show_all_reactions_from_struct_mode():
     try:
         for fg in functional_groups:
             df = pd.read_sql(
-                db.query(models.Reaction)
-                    .filter(models.Reaction.substance.contains(fg))
+                db.query(database.Reaction)
+                    .filter(database.Reaction.substance.contains(fg))
                     .statement,
                 db.bind,
             )
@@ -150,9 +150,9 @@ def match_reaction_by_reagent_mode():
             try:
                 for fg in functional_groups:
                     df = pd.read_sql(
-                        db.query(models.Reaction)
-                            .filter(models.Reaction.substance.contains(fg))
-                            .filter(models.Reaction.reagent.contains(reagents_selectbox))
+                        db.query(database.Reaction)
+                            .filter(database.Reaction.substance.contains(fg))
+                            .filter(database.Reaction.reagent.contains(reagents_selectbox))
                             .statement,
                         db.bind,
                     )
